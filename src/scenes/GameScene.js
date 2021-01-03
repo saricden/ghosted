@@ -28,6 +28,7 @@ class GameScene extends Scene {
         this.mary = this.physics.add.sprite(x, y, 'mary');
         this.mary.setOrigin(0.5, 1);
         this.mary.body.setSize(this.mary.width, this.mary.height / 3);
+        this.mary.body.setOffset(0, 60);
       }
     });
 
@@ -54,6 +55,9 @@ class GameScene extends Scene {
     this.cameras.main.setBackgroundColor(0x45334D);
 
     this.scene.launch('ui-game');
+
+    this.maryBlockedV = false;
+    this.maryBlockedH = false;
   }
 
   update() {
@@ -66,19 +70,31 @@ class GameScene extends Scene {
 
     const {left: lBlock, right: rBlock, up: uBlock, down: dBlock} = this.mary.body.blocked;
 
+    this.maryBlockedH = (lBlock || rBlock);
+    this.maryBlockedV = (uBlock || dBlock);
+
 
     if (this.targetX && this.targetY) {
       const {x: px, y: py} = this.mary;
       const d2p = pMath.Distance.Between(this.targetX, this.targetY, px, py);
-
-      if (d2p < 4 || lBlock || rBlock || uBlock || dBlock) {
-        this.mary.body.reset(this.mary.x, this.mary.y);
+      const xDiff = Math.abs(this.targetX - px);
+      const yDiff = Math.abs(this.targetY - py);
+      
+      if ((xDiff < 4 && this.mary.body.velocity.y === 0) || (yDiff < 4 && this.mary.body.velocity.x === 0) || d2p < 4) {
+        this.mary.body.setVelocity(0);
         this.targetX = null;
         this.targetY = null;
       }
       else {
         const {x: vx, y: vy} = this.mary.body.velocity;
         const lrOrUD = (Math.abs(vx) > Math.abs(vy));
+
+        if (this.maryBlockedH) {
+          this.mary.body.setVelocityX(0);
+        }
+        else if (this.maryBlockedV) {
+          this.mary.body.setVelocityY(0);
+        }
 
         // Going sideways
         if (lrOrUD) {
