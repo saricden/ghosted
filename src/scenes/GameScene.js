@@ -58,6 +58,7 @@ class GameScene extends Scene {
 
     this.maryBlockedV = false;
     this.maryBlockedH = false;
+    this.maryAnimDir = 'down';
   }
 
   update() {
@@ -98,7 +99,8 @@ class GameScene extends Scene {
 
         // Going sideways
         if (lrOrUD) {
-          this.mary.play({ key: 'mary-idle-side', repeat: 0}, true);
+          this.mary.play({ key: 'mary-walk-side', frameRate: 14, repeat: -1}, true);
+          this.maryAnimDir = 'side';
 
           if (vx < 0) {
             this.mary.setFlipX(false);
@@ -112,13 +114,18 @@ class GameScene extends Scene {
           this.mary.setFlipX(false);
 
           if (vy < 0) {
-            this.mary.play({ key: 'mary-idle-up', repeat: 0 }, true);
+            this.mary.play({ key: 'mary-walk-up', frameRate: 14, repeat: 0 }, true);
+            this.maryAnimDir = 'up';
           }
-          else {
-            this.mary.play({ key: 'mary-idle-down', repeat: 0 }, true);
+          else if (vy > 0) {
+            this.mary.play({ key: 'mary-walk-down', frameRate: 14, repeat: -1 }, true);
+            this.maryAnimDir = 'down';
           }
         }
       }
+    }
+    else {
+      this.mary.play({ key: `mary-idle-${this.maryAnimDir}`, repeat: 0}, true);
     }
   }
 
