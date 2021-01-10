@@ -1,0 +1,28 @@
+{ "frames": [
+   {
+    "filename": "0",
+    "frame": { "x": 0, "y": 0, "w": 32, "h": 80 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 80 },
+    "sourceSize": { "w": 32, "h": 80 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.25",
+  "image": "dummy-npc.png",
+  "format": "RGBA8888",
+  "size": { "w": 32, "h": 80 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "dummy-idle", "from": 0, "to": 0, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
