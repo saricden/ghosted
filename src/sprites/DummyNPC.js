@@ -1,30 +1,48 @@
 import {GameObjects} from 'phaser';
-const {Sprite} = GameObjects;
+const {PathFollower} = GameObjects;
 
-class DummyNPC extends Sprite {
-  constructor({scene, x, y}) {
-    super(scene, x, y, 'dummy-npc');
+class DummyNPC extends PathFollower {
+  constructor({scene, path, x, y}) {
+    super(scene, path, x, y, 'npc-shady');
 
     scene.add.existing(this);
     scene.physics.world.enable(this);
 
     this.setOrigin(0.5, 1);
 
-    this.moveSpeed = 50;
+    this.play({ key: 'npc-shady-idle-down', repeat: 0 }, true);
 
-    this.body.setVelocityX(this.moveSpeed);
+    this.prevX = x;
+    this.prevY = y;
   }
 
   update() {
-    const {left, right} = this.body.blocked;
+    const {x, y, prevX, prevY} = this;
     this.setDepth(this.y);
 
-    if (left) {
-      this.body.setVelocityX(this.moveSpeed);
+    if (x > prevX) {
+      console.log('going right');
+      this.play({ key: 'npc-shady-idle-side', repeat: 0 }, true);
+      this.setFlipX(true);
     }
-    else if (right) {
-      this.body.setVelocityX(-this.moveSpeed);
+    else if (x < prevX) {
+      console.log('going left');
+      this.play({ key: 'npc-shady-idle-side', repeat: 0 }, true);
+      this.setFlipX(false);
     }
+    else if (y > prevY) {
+      console.log('going down');
+      this.play({ key: 'npc-shady-idle-down', repeat: 0 }, true);
+      this.setFlipX(false);
+    }
+    else if (y < prevY) {
+      console.log('going up');
+      this.play({ key: 'npc-shady-idle-up', repeat: 0 }, true);
+      this.setFlipX(false);
+    }
+
+    this.prevX = x;
+    this.prevY = y;
   }
 }
 
