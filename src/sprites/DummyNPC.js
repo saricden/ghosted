@@ -21,22 +21,18 @@ class DummyNPC extends PathFollower {
     this.setDepth(this.y);
 
     if (x > prevX) {
-      console.log('going right');
       this.play({ key: 'npc-shady-idle-side', repeat: 0 }, true);
       this.setFlipX(true);
     }
     else if (x < prevX) {
-      console.log('going left');
       this.play({ key: 'npc-shady-idle-side', repeat: 0 }, true);
       this.setFlipX(false);
     }
     else if (y > prevY) {
-      console.log('going down');
       this.play({ key: 'npc-shady-idle-down', repeat: 0 }, true);
       this.setFlipX(false);
     }
     else if (y < prevY) {
-      console.log('going up');
       this.play({ key: 'npc-shady-idle-up', repeat: 0 }, true);
       this.setFlipX(false);
     }
